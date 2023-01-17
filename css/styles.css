@@ -1,7 +1,8 @@
-/* .pagination-button {
-  background-color: tomato;
-} */
+.pagination-button {
+  width: 45px;
+  height: 25px;
+}
 
 .pagination-button-current {
-  background-color: gold;
+  background-color: lightblue;
 }
