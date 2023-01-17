@@ -1,0 +1,7 @@
+/* .pagination-button {
+  background-color: tomato;
+} */
+
+.pagination-button-current {
+  background-color: gold;
+}
