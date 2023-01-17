@@ -8,7 +8,12 @@ const maxPages = 9; //maximum number of page navigation links to display
 
 showPagination(currentPage, totalPages, pagination); // uncomment to test
 
-// to export
+/**
+ * to export - marking up pagination line
+ * @param {Number} currentPage - the current active page
+ * @param {Number} totalPages - the total number of pages
+ * @param {DOM element} pagination - where to put pagination line
+ */
 export function showPagination(currentPage, totalPages, pagination) {
   markupPagination(paginate(currentPage, totalPages), pagination);
 }
@@ -62,8 +67,9 @@ function paginate(currentPage, totalPages) {
 }
 
 /**
- *
+ * marking up pagination line
  * @param {Array} output - text content for buttons in pagination line output
+ * @param {DOM element} paginationElem - where to put pagination line
  */
 function markupPagination(output, paginationElem) {
   let markup = output.reduce((acc, item) => {
