@@ -1,19 +1,6 @@
 // https://jasonwatmore.com/post/2018/08/07/javascript-pure-pagination-logic-in-vanilla-js-typescript
-// ===== external vars =======================================================
-let totalPages = 100; // uncomment to test
-let currentPage = 1; // uncomment to test
-const paginationRef = document.querySelector('.pagination'); // uncomment to test
-paginationRef.addEventListener('click', onPaginationButtonClick);
-// ===========================================================================
-// ============================================================================
-let pagiLength = 9; //maximum number of page navigation links to display (does NOT include arrows)
-let output;
-let targetPage;
-// let currentPage = 1;
-// let totalPages;
-let paginationElem;
 
-// ============================================================================
+// ===== first part of internal code ========================================
 
 // min-width: 600px - to meet old 8.34% tablets
 let media = window.matchMedia('(min-width: 600px)');
@@ -22,16 +9,35 @@ media.addEventListener('change', (event) => {
   updatePagination(currentPage, totalPages, paginationRef);
 });
 
-// ===== external code =======================================================
-pagiLength = media.matches ? 9 : 5;
-updatePagination(currentPage, totalPages, paginationRef);
+//pagiLength - maximum number of page navigation links to display
+// (does NOT include arrows)
+let pagiLength = media.matches ? 9 : 5;
+// let pagiLength = 9;
+let output;
+let targetPage;
+let currentPage = 1;
+let totalPages;
+let paginationElem;
 
-function onPaginationButtonClick(event) {
-  currentPage = getCurrentPage(event);
-  updatePagination(currentPage, totalPages, paginationRef);
-  // await fetch('https://...&page=currentPage')
-}
-// ============================================================================
+// ===== end first part of internal code =====================================
+
+// ===== external code =======================================================
+
+// let totalPages = 100; // uncomment to test
+// let currentPage = 1; // uncomment to test
+// const paginationRef = document.querySelector('.pagination'); // uncomment to test
+// paginationRef.addEventListener('click', onPaginationButtonClick);
+
+// updatePagination(currentPage, totalPages, paginationRef);
+
+// function onPaginationButtonClick(event) {
+//   currentPage = getCurrentPage(event);
+//   updatePagination(currentPage, totalPages, paginationRef);
+//   // await fetch('https://...&page=currentPage')
+// }
+// ===== end of external code ================================================
+
+// ===== second part of internal code ========================================
 
 /**
  * to export - marking up pagination line
@@ -40,6 +46,8 @@ function onPaginationButtonClick(event) {
  * @param {DOM element} paginationRef - where to put pagination line
  */
 export function updatePagination(page, pages, paginationRef) {
+  console.log('page :>> ', page);
+
   paginationElem = paginationRef;
   currentPage = page;
   totalPages = pages;
