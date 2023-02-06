@@ -15,26 +15,26 @@ let pagiLength = media.matches ? 9 : 5;
 // let pagiLength = 9;
 let output;
 let targetPage;
-let currentPage = 1;
-let totalPages;
+// let currentPage = 1;
+// let totalPages;
 let paginationElem;
 
 // ===== end first part of internal code =====================================
 
 // ===== external code =======================================================
 
-// let totalPages = 100; // uncomment to test
-// let currentPage = 1; // uncomment to test
-// const paginationRef = document.querySelector('.pagination'); // uncomment to test
-// paginationRef.addEventListener('click', onPaginationButtonClick);
+let totalPages = 100; // uncomment to test
+let currentPage = 1; // uncomment to test
+const paginationRef = document.querySelector('.pagination'); // uncomment to test
+paginationRef.addEventListener('click', onPaginationButtonClick);
 
-// updatePagination(currentPage, totalPages, paginationRef);
+updatePagination(currentPage, totalPages, paginationRef);
 
-// function onPaginationButtonClick(event) {
-//   currentPage = getCurrentPage(event);
-//   updatePagination(currentPage, totalPages, paginationRef);
-//   // await fetch('https://...&page=currentPage')
-// }
+function onPaginationButtonClick(event) {
+  currentPage = getCurrentPage(event);
+  updatePagination(currentPage, totalPages, paginationRef);
+  // await fetch('https://...&page=currentPage')
+}
 // ===== end of external code ================================================
 
 // ===== second part of internal code ========================================
@@ -46,8 +46,6 @@ let paginationElem;
  * @param {DOM element} paginationRef - where to put pagination line
  */
 export function updatePagination(page, pages, paginationRef) {
-  console.log('page :>> ', page);
-
   paginationElem = paginationRef;
   currentPage = page;
   totalPages = pages;
