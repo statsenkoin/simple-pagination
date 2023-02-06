@@ -5,11 +5,6 @@ let currentPage = 1; // uncomment to test
 const paginationRef = document.querySelector('.pagination'); // uncomment to test
 paginationRef.addEventListener('click', onPaginationButtonClick);
 // ===========================================================================
-// updatePagination(currentPage, totalPages, paginationRef);
-
-// function onPaginationButtonClick(event) {
-//   setCurrentPage(event);
-// }
 // ============================================================================
 const maxPages = 9; //maximum number of page navigation links to display
 let output;
@@ -19,16 +14,23 @@ let targetPage;
 let paginationElem;
 
 // ============================================================================
+// ===== external code =======================================================
 
 updatePagination(currentPage, totalPages, paginationRef);
 
 function onPaginationButtonClick(event) {
-  currentPage = setCurrentPage(event);
+  currentPage = getCurrentPage(event);
   updatePagination(currentPage, totalPages, paginationRef);
   // await fetch('...currentPage')
 }
 // ============================================================================
 
+/**
+ * to export - marking up pagination line
+ * @param {Number} page - the current active page
+ * @param {Number} pages - the total number of pages
+ * @param {DOM element} paginationRef - where to put pagination line
+ */
 export function updatePagination(page, pages, paginationRef) {
   paginationElem = paginationRef;
   currentPage = page;
@@ -37,7 +39,12 @@ export function updatePagination(page, pages, paginationRef) {
   markupPagination(output, paginationElem);
 }
 
-export function setCurrentPage(event) {
+/**
+ *
+ * @param {event} event click on button element
+ * @returns currentPage
+ */
+export function getCurrentPage(event) {
   if (event.target.nodeName !== 'BUTTON') return;
   const targetPageText = event.target.textContent;
 
@@ -50,7 +57,6 @@ export function setCurrentPage(event) {
   currentPage = targetPage;
   return currentPage;
 }
-// =============================================================================
 
 /**
  *
@@ -122,15 +128,3 @@ function markupPagination(output, paginationElem) {
   paginationElem.innerHTML = '';
   paginationElem.insertAdjacentHTML('beforeend', markup);
 }
-
-// showPagination(currentPage, totalPages, pagination); // uncomment to test
-
-// /**
-//  * to export - marking up pagination line
-//  * @param {Number} currentPage - the current active page
-//  * @param {Number} totalPages - the total number of pages
-//  * @param {DOM element} pagination - where to put pagination line
-//  */
-// export function showPagination(currentPage, totalPages, pagination) {
-//   markupPagination(paginate(currentPage, totalPages), pagination);
-// }
