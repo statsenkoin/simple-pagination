@@ -21,7 +21,7 @@ updatePagination(currentPage, totalPages, paginationRef);
 function onPaginationButtonClick(event) {
   currentPage = getCurrentPage(event);
   updatePagination(currentPage, totalPages, paginationRef);
-  // await fetch('...currentPage')
+  // await fetch('https://...&page=currentPage')
 }
 // ============================================================================
 
