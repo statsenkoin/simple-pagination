@@ -6,7 +6,7 @@ const paginationRef = document.querySelector('.pagination'); // uncomment to tes
 paginationRef.addEventListener('click', onPaginationButtonClick);
 // ===========================================================================
 // ============================================================================
-const pagiLength = 9; //maximum number of page navigation links to display (does NOT include arrows)
+let pagiLength = 9; //maximum number of page navigation links to display (does NOT include arrows)
 let output;
 let targetPage;
 // let currentPage = 1;
@@ -14,8 +14,16 @@ let targetPage;
 let paginationElem;
 
 // ============================================================================
-// ===== external code =======================================================
 
+// min-width: 600px - to meet old 8.34% tablets
+let media = window.matchMedia('(min-width: 600px)');
+media.addEventListener('change', (event) => {
+  pagiLength = event.matches ? 9 : 5;
+  updatePagination(currentPage, totalPages, paginationRef);
+});
+
+// ===== external code =======================================================
+pagiLength = media.matches ? 9 : 5;
 updatePagination(currentPage, totalPages, paginationRef);
 
 function onPaginationButtonClick(event) {
@@ -45,7 +53,7 @@ export function updatePagination(page, pages, paginationRef) {
  * @returns currentPage
  */
 export function getCurrentPage(event) {
-  if (event.target.nodeName !== 'BUTTON') return;
+  if (event.target.nodeName !== 'BUTTON') return currentPage;
   const targetPageText = event.target.textContent;
 
   if (!isNaN(Number(targetPageText))) targetPage = Number(targetPageText);
@@ -96,15 +104,17 @@ function paginate(currentPage, totalPages) {
   for (let i = startPage; i <= endPage; i += 1) {
     output.push(i);
   }
-  output.splice(0, 1, 1);
-  output.splice(output.length - 1, 1, totalPages);
 
-  if (currentPage - 1 > offsetPages && totalPages > pagiLength) {
-    output.splice(1, 1, ' ...');
+  if (pagiLength === 9) {
+    output.splice(0, 1, 1);
+    output.splice(output.length - 1, 1, totalPages);
+
+    if (currentPage - 1 > offsetPages && totalPages > pagiLength) {
+      output.splice(1, 1, ' ...');
+    }
+    if (currentPage + 1 + offsetPages < totalPages && totalPages > pagiLength)
+      output.splice(output.length - 2, 1, '... ');
   }
-  if (currentPage + 1 + offsetPages < totalPages && totalPages > pagiLength)
-    output.splice(output.length - 2, 1, '... ');
-
   return output;
 }
 
