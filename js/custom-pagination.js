@@ -6,7 +6,7 @@ const paginationRef = document.querySelector('.pagination'); // uncomment to tes
 paginationRef.addEventListener('click', onPaginationButtonClick);
 // ===========================================================================
 // ============================================================================
-const maxPages = 9; //maximum number of page navigation links to display
+const pagiLength = 9; //maximum number of page navigation links to display (does NOT include arrows)
 let output;
 let targetPage;
 // let currentPage = 1;
@@ -49,11 +49,13 @@ export function getCurrentPage(event) {
   const targetPageText = event.target.textContent;
 
   if (!isNaN(Number(targetPageText))) targetPage = Number(targetPageText);
-  if (targetPageText === '>') targetPage = totalPages;
-  if (targetPageText === '<') targetPage = 1;
-  if (targetPageText === ' ...') targetPage = currentPage - (maxPages - 4);
-  if (targetPageText === '... ') targetPage = currentPage + (maxPages - 4);
-  if (targetPage === currentPage) return;
+  if (targetPageText === '>' && currentPage === totalPages) return totalPages;
+  if (targetPageText === '>') targetPage = currentPage + 1;
+  if (targetPageText === '<' && currentPage === 1) return 1;
+  if (targetPageText === '<') targetPage = currentPage - 1;
+  if (targetPageText === ' ...') targetPage = currentPage - (pagiLength - 4);
+  if (targetPageText === '... ') targetPage = currentPage + (pagiLength - 4);
+  if (targetPage === currentPage) return currentPage;
   currentPage = targetPage;
   return currentPage;
 }
@@ -68,7 +70,7 @@ function paginate(currentPage, totalPages) {
   const output = [];
   let startPage;
   let endPage;
-  const offsetPages = Math.floor(maxPages / 2);
+  const offsetPages = Math.floor(pagiLength / 2);
 
   if (currentPage < 1) {
     currentPage = 1;
@@ -76,13 +78,13 @@ function paginate(currentPage, totalPages) {
     currentPage = totalPages;
   }
 
-  if (totalPages <= maxPages) {
+  if (totalPages <= pagiLength) {
     startPage = 1;
     endPage = totalPages;
   } else {
     if (currentPage <= offsetPages) {
       startPage = 1;
-      endPage = maxPages;
+      endPage = pagiLength;
     } else if (currentPage + offsetPages >= totalPages) {
       startPage = totalPages - offsetPages * 2;
       endPage = totalPages;
@@ -97,10 +99,10 @@ function paginate(currentPage, totalPages) {
   output.splice(0, 1, 1);
   output.splice(output.length - 1, 1, totalPages);
 
-  if (currentPage - 1 > offsetPages && totalPages > maxPages) {
+  if (currentPage - 1 > offsetPages && totalPages > pagiLength) {
     output.splice(1, 1, ' ...');
   }
-  if (currentPage + 1 + offsetPages < totalPages && totalPages > maxPages)
+  if (currentPage + 1 + offsetPages < totalPages && totalPages > pagiLength)
     output.splice(output.length - 2, 1, '... ');
 
   return output;
@@ -119,9 +121,11 @@ function markupPagination(output, paginationElem) {
         : 'class="pagination-button"';
     return (acc += `<button type="button" ${pagiClass}>${item}</button>`);
   }, ``);
-  if (totalPages > maxPages) {
+  if (totalPages > pagiLength && currentPage !== 1) {
     markup =
       `<button type="button" class="pagination-button">&lt;</button>` + markup;
+  }
+  if (totalPages > pagiLength && currentPage !== totalPages) {
     markup += `<button type="button" class="pagination-button">&gt;</button>`;
   }
 
